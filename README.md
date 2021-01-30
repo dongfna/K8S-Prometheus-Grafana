@@ -19,8 +19,7 @@
 
 Grafana v7.3.7登录密码：
 
-admin
-abcdocker
+admin/abcdocker
 
 
 Dashboard 模板ID：13105
