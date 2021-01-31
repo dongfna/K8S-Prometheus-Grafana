@@ -38,6 +38,10 @@ yum -y install git
 yum install wget
 
 
+echo "拉yaml"
+git clone https://github.com/dongfna/K8S-Prometheus-Grafana.git
+
+
 echo "装docker"
 wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O/etc/yum.repos.d/docker-ce.repo
 yum -y install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io
@@ -69,16 +73,12 @@ echo “export KUBECONFIG=/etc/kubernetes/admin.conf” >> ~/.bash_profile
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f ./K8S-Prometheus-Grafana/kube-flannel.yml
 kubectl get pod --all-namespaces -o wide
 kubectl get nodes
 sed -i /port=0/s#^#//#g /etc/kubernetes/manifests/kube-controller-manager.yaml
 sed -i /port=0/s#^#//#g /etc/kubernetes/manifests/kube-scheduler.yaml
 kubectl taint nodes --all node-role.kubernetes.io/master-
-
-
-echo "拉yaml"
-git clone https://github.com/dongfna/K8S-Prometheus-Grafana.git
 
 
 echo "配置镜像pull加速"
@@ -110,3 +110,10 @@ kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-chown-job.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-svc.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-ing.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-deploy.yaml
+
+
+
+
+
+
+
