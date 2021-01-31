@@ -40,7 +40,7 @@ yum -y install wget
 
 echo "拉yaml"
 git clone https://github.com/dongfna/K8S-Prometheus-Grafana.git
-sed -i 's/server: 192.168.3.80/server: ${ip}/g'  ./K8S-Prometheus-Grafana/grafana/grafana-volume.yaml
+sed -i "s/server: 192.168.3.80/server: ${ip}/g"  ./K8S-Prometheus-Grafana/grafana/grafana-volume.yaml
 
 
 echo "装docker"
