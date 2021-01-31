@@ -62,8 +62,6 @@ EOF
 
 
 echo "装 kubeadm，kubelet、kubectl"
-sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
-systemctl restart docker
 yum install kubelet kubeadm kubectl -y
 systemctl enable kubelet
 sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
