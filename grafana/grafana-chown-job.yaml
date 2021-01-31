@@ -14,9 +14,9 @@ spec:
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: storage
-          subPath: grafana-core
+          subPath: grafana
           mountPath: /var/lib/grafana
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: grafana-core
+          claimName: grafana
