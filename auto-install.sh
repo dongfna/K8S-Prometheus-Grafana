@@ -81,6 +81,14 @@ sed -i /port=0/s#^#//#g /etc/kubernetes/manifests/kube-scheduler.yaml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 
+echo "装nfs"
+yum install -y nfs-utils rpcbind
+mkdir /nfsdata
+chmod 777 /nfsdata/
+systemctl start nfs && systemctl enable nfs
+echo "/nfsdata *(rw,no_root_squash,no_all_squash,sync)" >> /etc/exports
+
+
 echo "配置镜像pull加速"
 curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
 
