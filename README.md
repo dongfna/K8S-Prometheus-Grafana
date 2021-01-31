@@ -22,6 +22,9 @@ Grafana v7.3.7登录密码：
 admin/abcdocker
 
 
+grafana/grafana-volume.yaml 中 nfs sever ip换成自己环境master的
+
+
 Dashboard 模板ID：13105
 
 官网下载地址：https://grafana.com/grafana/dashboards
