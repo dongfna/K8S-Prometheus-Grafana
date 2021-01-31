@@ -48,9 +48,7 @@ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O/etc/yum
 yum -y install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io
 systemctl enable docker
 systemctl start docker
-sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
-systemctl restart docker
-systemctl status docker
+sleep 10
 
 
 echo "配置yum源"
@@ -66,8 +64,12 @@ EOF
 echo "装 kubeadm，kubelet、kubectl"
 yum install kubelet kubeadm kubectl -y
 systemctl enable kubelet
+sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
+systemctl restart docker
+sleep 15
+systemctl status docker
 kubeadmV=$(kubeadm version | grep 'GitVersion:"' |sed 's/^.*GitVersion:"//g' | sed 's/", GitCommit.*//g')
-echo "装 kubeadm，kubelet、kubectl"kubeadm init --apiserver-advertise-address=${ip} --image-repository registry.aliyuncs.com/google_containers --kubernetes-version ${kubeadmV} --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
+echo "装 kubeadm，kubelet、kubectl"
 kubeadm init --apiserver-advertise-address=${ip} --image-repository registry.aliyuncs.com/google_containers --kubernetes-version ${kubeadmV} --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
 systemctl enable kubelet
 echo “export KUBECONFIG=/etc/kubernetes/admin.conf” >> ~/.bash_profile
