@@ -48,7 +48,7 @@ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O/etc/yum
 yum -y install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io
 systemctl enable docker
 systemctl start docker
-sleep 10
+sleep 15
 
 
 echo "配置yum源"
@@ -62,6 +62,8 @@ EOF
 
 
 echo "装 kubeadm，kubelet、kubectl"
+sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
+systemctl restart docker
 yum install kubelet kubeadm kubectl -y
 systemctl enable kubelet
 sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
@@ -121,10 +123,3 @@ kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-chown-job.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-svc.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-ing.yaml
 kubectl create -f ./K8S-Prometheus-Grafana/grafana/grafana-deploy.yaml
-
-
-
-
-
-
-
