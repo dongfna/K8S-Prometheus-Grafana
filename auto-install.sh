@@ -47,8 +47,10 @@ echo "装docker"
 wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O/etc/yum.repos.d/docker-ce.repo
 yum -y install docker-ce-19.03.5 docker-ce-cli-19.03.5 containerd.io
 systemctl enable docker
-systemctl start docker
+echo "{"registry-mirrors": ["http://f1361db2.m.daocloud.io"],exec-opts":["native.cgroupdriver=systemd"]}" >> /etc/docker/daemon.json
+systemctl restart docker
 sleep 15
+systemctl status docker
 
 
 echo "配置yum源"
@@ -64,10 +66,6 @@ EOF
 echo "装 kubeadm，kubelet、kubectl"
 yum install kubelet kubeadm kubectl -y
 systemctl enable kubelet
-sed -i 's/}/,"exec-opts":["native.cgroupdriver=systemd"]}/g' /etc/docker/daemon.json
-systemctl restart docker
-sleep 15
-systemctl status docker
 kubeadmV=$(kubeadm version | grep 'GitVersion:"' |sed 's/^.*GitVersion:"//g' | sed 's/", GitCommit.*//g')
 echo "装 kubeadm，kubelet、kubectl"
 kubeadm init --apiserver-advertise-address=${ip} --image-repository registry.aliyuncs.com/google_containers --kubernetes-version ${kubeadmV} --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
