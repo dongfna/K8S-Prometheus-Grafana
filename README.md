@@ -2,7 +2,7 @@
 
 [K8s+Prometheus+Grafana部署笔记]
 
-1、部署K8S
+1、部署K8S 最小2核2G
 
 
 2、kubectl create -f K8S-Prometheus-Grafana/kubernetes-dashboard/*
@@ -20,9 +20,6 @@
 Grafana v7.3.7登录密码：
 
 admin/abcdocker
-
-
-grafana/grafana-volume.yaml 中 nfs sever ip换成自己环境master的
 
 
 Dashboard 模板ID：13105
