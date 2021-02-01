@@ -65,7 +65,6 @@ EOF
 
 echo "装 kubeadm，kubelet、kubectl"
 yum install kubelet kubeadm kubectl -y
-systemctl enable kubelet
 kubeadmV=$(kubeadm version | grep 'GitVersion:"' |sed 's/^.*GitVersion:"//g' | sed 's/", GitCommit.*//g')
 echo "装 kubeadm，kubelet、kubectl"
 kubeadm init --apiserver-advertise-address=${ip} --image-repository registry.aliyuncs.com/google_containers --kubernetes-version ${kubeadmV} --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
